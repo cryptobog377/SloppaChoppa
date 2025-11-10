@@ -7,8 +7,8 @@
   <style>
     body {
       margin: 0;
-      height: 100vh;
-      background: url('1920x1080.jpg') center/cover no-repeat;
+      min-height: 100vh;
+      background: url('1920x1080.jpeg') center/cover no-repeat;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -16,14 +16,16 @@
       font-family: 'Arial Black', sans-serif;
       color: #f8e08c;
       text-align: center;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
+      transition: background-position 0.2s ease;
     }
 
     body::after {
       content: '';
-      position: absolute;
+      position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.55);
       z-index: 0;
     }
 
@@ -34,6 +36,8 @@
       flex-direction: column;
       align-items: center;
       gap: 20px;
+      padding: 40px 20px;
+      max-width: 700px;
     }
 
     .ca-box {
@@ -58,18 +62,73 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.4);
       transition: all 0.3s ease;
       text-transform: uppercase;
+      animation: glow 2.5s infinite ease-in-out;
     }
 
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(255,215,0,0.5);
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+      50% { box-shadow: 0 0 25px rgba(255,215,0,0.8); transform: scale(1.05); }
+    }
+
+    .text-blocks {
+      margin-top: 40px;
+      z-index: 1;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #f9e9b2;
+      margin-bottom: 25px;
+      background: rgba(0,0,0,0.4);
+      padding: 10px 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
     }
   </style>
 </head>
 <body>
   <div class="content">
-    <div class="ca-box">CA: will be added soon</div>
+    <div class="ca-box">CA: YOUR_CONTRACT_ADDRESS_HERE</div>
     <a href="https://x.com/i/communities/1987998813408149835" target="_blank" class="btn">Join X Community</a>
+
+    <div class="text-blocks">
+      <p>🐷 Sloppa Choppa — the pig who saw too much. He’s not here to farm — he’s here to fly.</p>
+      <p>💸 When the market dips, Sloppa Choppa dips harder — right into another bag. The oinkonomics never lie.</p>
+      <p>🚀 Built for pure chaos and unstoppable memes. You don’t trade Sloppa — you *become* Sloppa.</p>
+      <p>🥓 He sloppa, he choppa, he make portfolios hotter. 100% USDA meme-certified premium token.</p>
+    </div>
   </div>
+
+  <script>
+    // 🌀 фоновое покачивание
+    let posX = 50, posY = 50;
+    function moveBackground() {
+      posX += Math.sin(Date.now() / 1500) * 0.1;
+      posY += Math.cos(Date.now() / 2000) * 0.1;
+      document.body.style.backgroundPosition = `${posX}% ${posY}%`;
+      requestAnimationFrame(moveBackground);
+    }
+    moveBackground();
+
+    // 🪶 покачивание текста
+    const texts = document.querySelectorAll('.text-blocks p');
+    texts.forEach((p, i) => {
+      let dir = i % 2 === 0 ? 1 : -1;
+      setInterval(() => {
+        p.style.transform = `translateY(${Math.sin(Date.now() / 1000 + i) * 5 * dir}px)`;
+      }, 50);
+    });
+
+    // ✨ случайные вращения текста
+    setInterval(() => {
+      texts.forEach((p, i) => {
+        if (Math.random() > 0.8) {
+          p.style.transform += ` rotate(${(Math.random() - 0.5) * 6}deg)`;
+        }
+      });
+    }, 2000);
+  </script>
 </body>
 </html>
